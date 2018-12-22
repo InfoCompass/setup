@@ -454,7 +454,7 @@ async function checkClients(){
 	var client_dirs 	= await findClients(targetDir),
 		clients			= client_dirs.map( client_dir => new Client(client_dir))
 
-	return clients.each( client => client.check() ) 
+	return Promise.each( clients, client => client.check() )
 
 }
 
@@ -462,7 +462,7 @@ async function checkBackends(){
 	var backend_dirs	= await findBackends(targetDir),
 		backends		= backend_dirs.map( backend_dir => new Backend(backend_dir) )
 
-	return backends.each( backend => backend.check() )
+	return Promise.each( backends, backend => backend.check() )
 }
 
 Promise.resolve()
