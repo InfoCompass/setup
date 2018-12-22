@@ -10,6 +10,7 @@ var	Promise		= require('bluebird'),
 
 function ok()		{ process.stdout.write('\t\x1b[32m[ok]\x1b[0m\n') }
 function warn(s) 	{ process.stdout.write('\t\x1b[33m['+(s||'failed')+']\x1b[0m\n')}
+function error(s) 	{ process.stdout.write('\t\x1b[31m['+(s||'failed')+']\x1b[0m\n')}
 function newline(x)	{ process.stdout.write('\n'.repeat(x||1))}
 function write(n,s)	{ process.stdout.write('\t'.repeat(typeof n == 'number' ? n : 0)+(s||n) )}
 
@@ -362,7 +363,7 @@ function Backend(baseDir){
 		write('\t'.repeat(indent) + connect_str)
 		return	MongoClient.connect(connect_str, { useNewUrlParser: true })
 				.then(	client 	=> { client.close(), ok()	})
-				.catch(	e 		=> warn(e) )
+				.catch(	e 		=> { warn() error(e) }
 	}
 
 	this.check = async function(){
