@@ -309,6 +309,7 @@ function Backend(baseDir){
 			this.config = JSON.parse(fs.readFileSync(config_file, 'utf8'))
 		} catch(e) {
 			this.config.error = e
+			return null
 		}
 
 		var requirements = 	{
@@ -344,6 +345,8 @@ function Backend(baseDir){
 
 	this.checkDb = async function(indent){
 		await this.ready
+
+		if(!this.config.db) return this.config.error = "Missing config.db"
 
 		var connect_str	= ('mongodb://')
 						+ (this.config.db.credentials.username || '')
