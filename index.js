@@ -303,7 +303,7 @@ function Backend(baseDir){
 	this.getConfig = 	async function(){
 		var config_file = path.join(baseDir, 'config', 'config.json')
 
-		if(!fs.existsSync(config_file)) return config.error = "Missing config file"
+		if(!fs.existsSync(config_file)) return thid.config.error = "Missing config file"
 
 		try{
 			this.config = JSON.parse(fs.readFileSync(config_file, 'utf8'))
