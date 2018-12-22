@@ -375,7 +375,9 @@ function Backend(baseDir){
 
 		var item_file = path.join(baseDir, 'dpd/public', 'ic-item-config.js')
 
-		if(!fs.existsSync(config_file))
+		fs.existsSync(item_file)
+		?	ok()
+		:	warn()
 	}
 
 	this.check = async function(){
