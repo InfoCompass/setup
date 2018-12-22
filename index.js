@@ -370,6 +370,14 @@ function Backend(baseDir){
 				.catch(	e 		=> { warn(); error(e) })
 	}
 
+	this.checkItems = async function(indent){
+		await this.ready
+
+		var item_file = path.join(baseDir, 'dpd/public', 'ic-item-config.js')
+
+		if(!fs.existsSync(config_file))
+	}
+
 	this.check = async function(){
 		await this.ready
 
@@ -387,6 +395,10 @@ function Backend(baseDir){
 		this.config.error
 		?	warn(this.config.error)
 		:	ok()
+
+		write('\t2) Setup items: npm run setup')
+		newline()
+		await this.checkItems(2)
 
 		write('\t2) Setup MongoDb')
 		newline()
