@@ -101,6 +101,8 @@ function Client(baseDir){
 							.filter(file 	=> fs.lstatSync(path.join(custom_dir, file)).isDirectory())
 							.map(	file	=> path.join(custom_dir, file))
 
+		console.log(custom_dirs)
+
 		custom_dirs.forEach( custom_dir => self.customSkins.push(new CustomSkin(custom_dir)))
 
 		return this.customSkins
@@ -467,5 +469,8 @@ Promise.resolve()
 .then(checkClients)
 .then(checkBackends)
 .then( () => {
+	newline()
+	newline()
+	newline()
 	newline()
 })
