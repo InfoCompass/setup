@@ -1,9 +1,11 @@
+'use strict'
+
 var	Promise		= require('bluebird'),
 	fs			= require('fs-extra'),
 	path		= require('path'),
 	MongoClient	= require('mongodb').MongoClient,
 	request		= require('request-promise'),
-	cst 		= process.argv[2]
+	targetDir	= process.argv[2]
 
 
 function ok()		{ process.stdout.write('\t\x1b[32m[ok]\x1b[0m\n') }
@@ -268,6 +270,16 @@ function CustomSkin(baseDir){
 }
 
 
+
+
+
+
+
+
+//BACKEND
+
+
+
 function Backend(baseDir){
 
 	this.baseDir 	= baseDir
@@ -437,7 +449,7 @@ function Backend(baseDir){
 // findCustomDirs().then(console.dir)
 
 async function checkClients(){
-	var client_dirs 	= await findClients(),
+	var client_dirs 	= await findClients(targetDir),
 		clients			= client_dirs.map( client_dir => new Client(client_dir))
 
 	return Promise.all( clients.map( client => client.check() ) )
@@ -445,7 +457,7 @@ async function checkClients(){
 }
 
 async function checkBackends(){
-	var backend_dirs	= await findBackends(),
+	var backend_dirs	= await findBackends(targetDir),
 		backends		= backend_dirs.map( backend_dir => new Backend(backend_dir) )
 
 	return Promise.all( backends.map( backend => backend.check() ))
@@ -454,3 +466,6 @@ async function checkBackends(){
 Promise.resolve()
 .then(checkClients)
 .then(checkBackends)
+.then( () => {
+	newline()
+})
