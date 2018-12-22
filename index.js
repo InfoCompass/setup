@@ -8,11 +8,15 @@ var	Promise		= require('bluebird'),
 	targetDir	= process.argv[2]
 
 
-function ok()		{ process.stdout.write('\t\x1b[32m[ok]\x1b[0m\n') }
-function warn(s) 	{ process.stdout.write('\t\x1b[33m['+(s||'failed')+']\x1b[0m\n')}
-function error(s) 	{ process.stdout.write('\t\x1b[31m['+(s||'failed')+']\x1b[0m\n')}
-function newline(x)	{ process.stdout.write('\n'.repeat(x||1))}
-function write(n,s)	{ process.stdout.write('\t'.repeat(typeof n == 'number' ? n : 0)+(s||n) )}
+function ok()		{ 	process.stdout.write('\t\x1b[32m[ok]\x1b[0m\n') }
+function warn(s) 	{ 	process.stdout.write('\t\x1b[33m['+(s||'failed')+']\x1b[0m\n')}
+function error(s) 	{ 
+						newline()
+						process.stdout.write('\t\x1b[31m['+(s||'failed')+']\x1b[0m\n')
+						newline()
+					}
+function newline(x)	{ 	process.stdout.write('\n'.repeat(x||1))}
+function write(n,s)	{ 	process.stdout.write('\t'.repeat(typeof n == 'number' ? n : 0)+(s||n) )}
 
 
 async function findFile(dir, regex){
