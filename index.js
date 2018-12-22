@@ -363,7 +363,7 @@ function Backend(baseDir){
 		write('\t'.repeat(indent) + connect_str)
 		return	MongoClient.connect(connect_str, { useNewUrlParser: true })
 				.then(	client 	=> { client.close(), ok()	})
-				.catch(	e 		=> { warn() error(e) }
+				.catch(	e 		=> { warn(), error(e) }
 	}
 
 	this.check = async function(){
