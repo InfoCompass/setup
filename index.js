@@ -398,17 +398,14 @@ function Backend(baseDir){
 		?	warn(this.config.error)
 		:	ok()
 
-		write('\t2) Setup items: npm run setup')
-		newline()
+		write('\t3) Setup items: npm run setup')
 		await this.checkItems(2)
 
-		write('\t2) Setup MongoDb')
+		write('\t4) Setup MongoDb')
 		newline()
 		await this.checkDb(2)
 
 		newline()
-
-		write('\t item config!!') // check if files exists and is copied to public?
 
 		write('\nSetup Webserver')
 		write('-------------')
