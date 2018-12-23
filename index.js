@@ -292,6 +292,7 @@ function Backend(baseDir){
 	this.baseDir 	= baseDir
 	this.repo		= {error: 'not checked'}
 	this.config		= {error: 'not checked'}
+	this.setup		= {error; 'not checked'}
 
 	this.findGitRepository = async function(){
 
@@ -348,10 +349,30 @@ function Backend(baseDir){
 		if(error) this.config.error = error
 	}
 
+
+	this.checkSetup = async function(indent){
+		await this.ready
+
+		var item_file = path.join(baseDir, 'dpd/public', 'ic-item-config.js'),
+			translations_file = path.join(baseDir, 'dpd/public', 'translations.json')
+
+		write('\t'.repeat(indent+1)+ 'item-config'
+		fs.existsSync(item_file)
+		?	ok()
+		:	warn()
+
+		write('\t'.repeat(indent+1)+ 'translations'
+
+		fs.existsSync(item_file)
+		?	ok()
+		:	warn() 
+	}
+
+
 	this.checkDb = async function(indent){
 		await this.ready
 
-		if(!this.config.db) return this.config.error = "Missing config.db"
+		if(!this.config.db) throw "Missing config.db"
 
 		var connect_str	= ('mongodb://')
 						+ (this.config.db.credentials.username || '')
@@ -366,19 +387,10 @@ function Backend(baseDir){
 
 		write('\t'.repeat(indent) + connect_str)
 		return	MongoClient.connect(connect_str, { useNewUrlParser: true })
-				.then(	client 	=> { client.close(); ok()	})
-				.catch(	e 		=> { warn(); error(e) })
+				.then(	client 	=> { client.close(); ok() })
+				.catch(	e		=> { warn(); error(e)})
 	}
 
-	this.checkItems = async function(indent){
-		await this.ready
-
-		var item_file = path.join(baseDir, 'dpd/public', 'ic-item-config.js')
-
-		fs.existsSync(item_file)
-		?	ok()
-		:	warn()
-	}
 
 	this.check = async function(){
 		await this.ready
@@ -398,12 +410,14 @@ function Backend(baseDir){
 		?	warn(this.config.error)
 		:	ok()
 
-		write('\t3) Setup items: npm run setup')
-		await this.checkItems(2)
-
-		write('\t4) Setup MongoDb')
+		write('\t3) Setup: npm run setup')
 		newline()
-		await this.checkDb(2)
+		await 	this.checkSetup(2)
+
+		write('\t5) Setup MongoDb')
+		newline()
+		await 	this.checkDb(2)
+
 
 		newline()
 
