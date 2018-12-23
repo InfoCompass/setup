@@ -355,12 +355,12 @@ function Backend(baseDir){
 		var item_file = path.join(baseDir, 'dpd/public', 'ic-item-config.js'),
 			translations_file = path.join(baseDir, 'dpd/public', 'translations.json')
 
-		write('\t'.repeat(indent+1)+ 'item-config'
+		write('\t'.repeat(indent+1)+'item-config')
 		fs.existsSync(item_file)
 		?	ok()
 		:	warn()
 
-		write('\t'.repeat(indent+1)+ 'translations'
+		write('\t'.repeat(indent+1)+ 'translations')
 
 		fs.existsSync(item_file)
 		?	ok()
