@@ -292,7 +292,6 @@ function Backend(baseDir){
 	this.baseDir 	= baseDir
 	this.repo		= {error: 'not checked'}
 	this.config		= {error: 'not checked'}
-	this.setup		= {error; 'not checked'}
 
 	this.findGitRepository = async function(){
 
