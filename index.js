@@ -349,16 +349,24 @@ function Backend(baseDir){
 	}
 
 
-	this.checkSetup = async function(indent){
+	this.checkItems = async function(indent){
 		await this.ready
 
 		var item_file = path.join(baseDir, 'dpd/public', 'ic-item-config.js'),
-			translations_file = path.join(baseDir, 'dpd/public', 'translations.json')
 
 		write('\t'.repeat(indent)+'item-config')
 		fs.existsSync(item_file)
 		?	ok()
 		:	warn("missing item config")
+
+		
+	}
+
+
+	this.checkTranslations = async function(indent){
+		await this.ready
+
+		var translations_file = path.join(baseDir, 'dpd/public', 'translations.json')
 
 		write('\t'.repeat(indent)+ 'translations')
 
@@ -409,9 +417,13 @@ function Backend(baseDir){
 		?	warn(this.config.error)
 		:	ok()
 
-		write('\t3) Setup: npm run setup')
+		write('\t3) Setup items: npm run setup')
 		newline()
-		await 	this.checkSetup(2)
+		await 	this.checkItems(2)
+
+		write('\t4) Translations')
+		newline()
+		await 	this.checkTranslations(2)
 
 		write('\t5) Setup MongoDb')
 		newline()
