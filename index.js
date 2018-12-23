@@ -393,15 +393,15 @@ function Backend(baseDir){
 		?	warn(this.config.error)
 		:	ok()
 
-		write('\t3) Setup items (npm run setup)')
+		write('\t3) Setup items')
 		fs.existsSync(item_file)
 		?	ok()
-		:	warn("missing item config")
+		:	warn("missing item config - npm run setup")
 
-		write('\t4) Setup Translations (/actions/updateTranslations)')
+		write('\t4) Setup Translations')
 		fs.existsSync(translations_file)
 		?	ok()
-		:	warn("missing translations") 
+		:	warn("missing translations - /actions/updateTranslations") 
 
 
 		write('\t5) Setup MongoDb')
