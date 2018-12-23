@@ -349,34 +349,6 @@ function Backend(baseDir){
 	}
 
 
-	this.checkItems = async function(indent){
-		await this.ready
-
-		var item_file = path.join(baseDir, 'dpd/public', 'ic-item-config.js')
-
-		write('\t'.repeat(indent)+'item-config')
-
-		fs.existsSync(item_file)
-		?	ok()
-		:	warn("missing item config")
-
-		
-	}
-
-
-	this.checkTranslations = async function(indent){
-		await this.ready
-
-		var translations_file = path.join(baseDir, 'dpd/public', 'translations.json')
-
-		write('\t'.repeat(indent)+ 'translations')
-
-		fs.existsSync(translations_file)
-		?	ok()
-		:	warn("missing translations") 
-	}
-
-
 	this.checkDb = async function(indent){
 		await this.ready
 
@@ -403,6 +375,9 @@ function Backend(baseDir){
 	this.check = async function(){
 		await this.ready
 
+		var item_file = path.join(baseDir, 'dpd/public', 'ic-item-config.js'),
+			translations_file = path.join(baseDir, 'dpd/public', 'translations.json')
+
 		newline()
 		write('Backend - '+this.baseDir)
 		newline()
@@ -418,13 +393,16 @@ function Backend(baseDir){
 		?	warn(this.config.error)
 		:	ok()
 
-		write('\t3) Setup items: npm run setup')
-		newline()
-		await 	this.checkItems(2)
+		write('\t3) Setup items (npm run setup)')
+		fs.existsSync(item_file)
+		?	ok()
+		:	warn("missing item config")
 
-		write('\t4) Translations')
-		newline()
-		await 	this.checkTranslations(2)
+		write('\t4) Setup Translations (/actions/updateTranslations)')
+		fs.existsSync(translations_file)
+		?	ok()
+		:	warn("missing translations") 
+
 
 		write('\t5) Setup MongoDb')
 		newline()
