@@ -160,7 +160,7 @@ function CustomSkin(baseDir){
 	this.getConfig = async function(){
 		var config_file = path.join(baseDir, 'config.json')
 
-		if(!fs.existsSync(config_file)) return config.error = "Missing config file"
+		if(!fs.existsSync(config_file)) return config.error = "missing config file"
 
 		try{
 			this.config = JSON.parse(fs.readFileSync(config_file, 'utf8'))
@@ -308,7 +308,7 @@ function Backend(baseDir){
 	this.getConfig = 	async function(){
 		var config_file = path.join(baseDir, 'config', 'config.json')
 
-		if(!fs.existsSync(config_file)) return this.config.error = "Missing config file"
+		if(!fs.existsSync(config_file)) return this.config.error = "missing config file"
 
 		try{
 			this.config = JSON.parse(fs.readFileSync(config_file, 'utf8'))
@@ -355,23 +355,23 @@ function Backend(baseDir){
 		var item_file = path.join(baseDir, 'dpd/public', 'ic-item-config.js'),
 			translations_file = path.join(baseDir, 'dpd/public', 'translations.json')
 
-		write('\t'.repeat(indent+1)+'item-config')
+		write('\t'.repeat(indent)+'item-config')
 		fs.existsSync(item_file)
 		?	ok()
-		:	warn()
+		:	warn("missing item config")
 
-		write('\t'.repeat(indent+1)+ 'translations')
+		write('\t'.repeat(indent)+ 'translations')
 
-		fs.existsSync(item_file)
+		fs.existsSync(translations_file)
 		?	ok()
-		:	warn() 
+		:	warn("missing translations") 
 	}
 
 
 	this.checkDb = async function(indent){
 		await this.ready
 
-		if(!this.config.db) throw "Missing config.db"
+		if(!this.config.db) throw "missing config.db"
 
 		var connect_str	= ('mongodb://')
 						+ (this.config.db.credentials.username || '')
