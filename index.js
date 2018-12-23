@@ -352,9 +352,10 @@ function Backend(baseDir){
 	this.checkItems = async function(indent){
 		await this.ready
 
-		var item_file = path.join(baseDir, 'dpd/public', 'ic-item-config.js'),
+		var item_file = path.join(baseDir, 'dpd/public', 'ic-item-config.js')
 
 		write('\t'.repeat(indent)+'item-config')
+
 		fs.existsSync(item_file)
 		?	ok()
 		:	warn("missing item config")
