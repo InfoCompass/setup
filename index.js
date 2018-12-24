@@ -250,7 +250,7 @@ function CustomSkin(baseDir){
 	}
 
 
-	this.checkTaxonomyConfig = async function(indent){
+	this.checkTaxonomy = async function(indent){
 		var taxonomy_file = path.join(baseDir, 'js/config/taxonomy.js')
 
 		write(indent, 'taxonomy'.padEnd(36, '.'))
@@ -283,6 +283,7 @@ function CustomSkin(baseDir){
 
 		newline()
 		await this.checkBackend(indent+1)
+		await this.checkTaxonomy(indent+1)
 		await this.checkMapTiles(indent+1)
 	}
 
