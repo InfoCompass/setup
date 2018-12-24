@@ -368,7 +368,6 @@ function Backend(baseDir){
 					connect_str, 
 					{ 
 						useNewUrlParser: true,
-						uri_decode_auth: true 
 					}
 				)
 				.then(	client 	=> { client.close(); ok() })
