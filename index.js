@@ -43,7 +43,7 @@ async function findFile(dir, regex){
 	if(!fs.existsSync(config)) return null
 
 	return	Promise.resolve(fs.readFile(config, 'utf8'))
-			.then( content => { var match = content.match(/\[remote "origin"]\s*url\s*=\s*([^\s]*)/); return  match && match[1] })
+			.then( content => { console.log(content); var match = content.match(/\[remote "origin"]\s*url\s*=\s*([^\s]*)/); return  match && match[1] })
 }
 
 
@@ -51,7 +51,6 @@ async function findGitRepository(dir, regex){
 	dir = dir || '.'
 
 	return 	Promise.resolve(findFile(dir, /^\.git$/))
-			.each( console.log )
 			.filter( folder => getGitOriginUrl(folder).then( link => regex.exec(link)) )
 }
 
