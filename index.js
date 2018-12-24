@@ -58,15 +58,15 @@ async function findClients(dir){	return await findGitRepository(dir, /https:\/\/
 async function findBackends(dir){	return await findGitRepository(dir, /https:\/\/github.com\/InfoCompass\/backend/) }
 
 
-function findErrors(requirements, obj, key){
+function findErrors(requirements, obj, path){
 	var errors = []
 
-	if(typeof requirements 	!= 'object') 	return obj === undefined ? ' missing' : null
-	if(typeof obj 			!= 'object') 	return '... not an object'
+	if(typeof requirements 	!= 'object') 	return obj === undefined ? [(path||'')+' missing'] : []
+	if(typeof obj 			!= 'object') 	return [path+' not an object']
 		
 	for(var k in requirements){
-		var e = findErrors(requirements[k], obj[k], key) 
-		errors.concat(e)
+		var e = findErrors(requirements[k], obj[k], (path||'')+'.'+k) 
+		errors = errors.concat(e)
 	}
 	
 	return errors
@@ -189,10 +189,12 @@ function CustomSkin(baseDir){
 
 		
 
-		var error 		= findErrors(requirements, this.config),
+		var errors 		= findErrors(requirements, this.config),
 			warnings 	= findErrors(nice_to_have, this.config)
 
-		if(error.length) 		this.config.error 		= error[0]
+		console.log(warnings, errors)
+
+		if(error.length) 		this.config.error 		= errors[0]
 		if(warnings.length) 	this.config.warnings	= warnings
 
 
@@ -285,7 +287,7 @@ function CustomSkin(baseDir){
 
 		if(this.config.error) return null
 
-		if(this.config.warning) config.warnings.forEach( w => { write(indent+1, w) })
+		if(this.config.warnings) this.config.warnings.forEach( w => { write(indent+2, w); newline() })
 
 		newline()
 		await this.checkBackend(indent+1)
