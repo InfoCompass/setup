@@ -254,7 +254,7 @@ function CustomSkin(baseDir){
 
 		write(indent+1,'Origin ')
 		this.origin.error
-		?	warn(origin.error)
+		?	warn(this.origin.error)
 		:	process.stdout.write(this.origin), ok()
 
 		write(indent+1,'Config ')
