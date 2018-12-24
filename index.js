@@ -473,15 +473,14 @@ function Backend(baseDir){
 
 async function checkClients(){
 
-	write('Checking Clients in '+targetDir)
+	newline()
+	write('## Checking Clients in '+targetDir)
 
 	var client_dirs 	= await findClients(targetDir),
 		clients			= client_dirs
 						.map( client_dir => new Client(client_dir))
 
 	if(client_dirs.length == 0) warn('no clients found')
-
-	client_dirs.forEach( dir => { write(1,dir); newline() } )
 
 	newline()
 
@@ -491,7 +490,8 @@ async function checkClients(){
 
 async function checkBackends(){
 
-	write('Checking Backends in '+targetDir)
+	newline()
+	write('## Checking Backends in '+targetDir)
 
 
 	var backend_dirs	= await findBackends(targetDir),
@@ -499,8 +499,6 @@ async function checkBackends(){
 
 
 	if(backend_dirs.length == 0) warn('no backends found')
-
-	backend_dirs.forEach( dir => { write(1,dir); newline() } )
 
 	newline()
 
