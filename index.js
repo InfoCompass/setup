@@ -476,7 +476,10 @@ async function checkClients(){
 	write('checking Clients in '+targetDir+' ...\n\n')
 
 	var client_dirs 	= await findClients(targetDir),
-		clients			= client_dirs.map( client_dir => new Client(client_dir))
+		clients			= client_dirs
+						.map( client_dir => new Client(client_dir))
+
+	client_dirs.forEach( dir => { write(1,dir); newline() } )
 
 	return Promise.each( clients, client => client.check() )
 
