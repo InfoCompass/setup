@@ -106,8 +106,6 @@ function Client(baseDir){
 							.filter(file 	=> fs.lstatSync(path.join(custom_dir, file)).isDirectory())
 							.map(	file	=> path.join(custom_dir, file))
 
-		console.log(custom_dirs)
-
 		custom_dirs.forEach( custom_dir => self.customSkins.push(new CustomSkin(custom_dir)))
 
 		return this.customSkins
@@ -393,15 +391,15 @@ function Backend(baseDir){
 		?	warn(this.config.error)
 		:	ok()
 
-		write('\t3) Setup items')
+		write('\t3) Setup item config')
 		fs.existsSync(item_file)
 		?	ok()
 		:	warn("missing item config - npm run setup")
 
-		write('\t4) Setup Translations')
+		write('\t4) Setup translations')
 		fs.existsSync(translations_file)
 		?	ok()
-		:	warn("missing translations - /actions/updateTranslations") 
+		:	warn("missing translations - npm start") 
 
 
 		write('\t5) Setup MongoDb')
@@ -474,6 +472,9 @@ function Backend(baseDir){
 // findCustomDirs().then(console.dir)
 
 async function checkClients(){
+
+	write('checking Clients in '+targetDir+' ...')
+
 	var client_dirs 	= await findClients(targetDir),
 		clients			= client_dirs.map( client_dir => new Client(client_dir))
 
@@ -482,6 +483,10 @@ async function checkClients(){
 }
 
 async function checkBackends(){
+
+	write('checking Backends in '+targetDir+' ...')
+
+
 	var backend_dirs	= await findBackends(targetDir),
 		backends		= backend_dirs.map( backend_dir => new Backend(backend_dir) )
 
