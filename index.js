@@ -277,7 +277,7 @@ function CustomSkin(baseDir){
 		?	warn(this.config.error)
 		:	ok()
 
-		if(config.error) return null
+		if(this.config.error) return null
 
 		newline()
 		await this.checkBackend(indent+1)
