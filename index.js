@@ -450,7 +450,7 @@ function Backend(baseDir){
 						this.findGitRepository(),
 						this.getConfig()
 					])
-					.catch( e => { error(e) process.exit(1) )
+					.catch( e => { error(e); process.exit(1) )
 }
 
 
