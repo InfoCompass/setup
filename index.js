@@ -355,7 +355,7 @@ function Backend(baseDir){
 		var connect_str	= ('mongodb://')
 						+ (this.config.db.credentials.username || '')
 						+ (this.config.db.credentials.username && this.config.db.credentials.password ? ':' : '') 
-						+ (this.config.db.credentials.password || '')
+						+ encodeURIComponent(this.config.db.credentials.password || '')
 						+ (this.config.db.credentials.username && '@' || '')
 						+ (this.config.db.host || "127.0.0.1")
 						+ (':')
@@ -364,7 +364,13 @@ function Backend(baseDir){
 						+ (this.config.db.name)
 
 		write('\t'.repeat(indent) + connect_str)
-		return	MongoClient.connect(connect_str, { useNewUrlParser: true })
+		return	MongoClient.connect(
+					connect_str, 
+					{ 
+						useNewUrlParser: true,
+						uri_decode_auth: true 
+					}
+				)
 				.then(	client 	=> { client.close(); ok() })
 				.catch(	e		=> { warn(); error(e)})
 	}
@@ -474,6 +480,7 @@ function Backend(baseDir){
 async function checkClients(){
 
 	newline()
+	newline()
 	write('## Checking Clients in '+targetDir)
 
 	var client_dirs 	= await findClients(targetDir),
@@ -490,6 +497,7 @@ async function checkClients(){
 
 async function checkBackends(){
 
+	newline()
 	newline()
 	write('## Checking Backends in '+targetDir)
 
