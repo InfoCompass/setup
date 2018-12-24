@@ -211,6 +211,14 @@ function CustomSkin(baseDir){
 
 
 
+		write(indent, 'api'.padEnd(36, '.'))
+
+		await	request.get(this.config.backendLocation)
+				.then(ok)
+				.catch( e => warn() )
+
+
+
 		await 	Promise.each(
 					files,
 					file 	=> 	request.get(url+'/'+file)
