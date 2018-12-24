@@ -156,7 +156,7 @@ function CustomSkin(baseDir){
 	this.getConfig = async function(){
 		var config_file = path.join(baseDir, 'config.json')
 
-		if(!fs.existsSync(config_file)) return this.config.error = "missing config file"
+		if(!fs.existsSync(config_file)) throw "missing config file"
 
 		try{
 			this.config = JSON.parse(fs.readFileSync(config_file, 'utf8'))
