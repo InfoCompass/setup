@@ -251,13 +251,13 @@ function CustomSkin(baseDir){
 
 
 	this.checkTaxonomy = async function(indent){
-		var taxonomy_file = path.join(baseDir, 'js/config/taxonomy.js')
+		var taxonomy_file = path.join(baseDir, 'js/taxonomy.js')
 
 		write(indent, 'taxonomy'.padEnd(36, '.'))
 
 		fs.existsSync(taxonomy_file)
 		? ok()
-		: warn('missing js/config/taxonomy.js')
+		: warn('missing js/taxonomy.js')
 	}
 
 	this.check = async function(indent){
@@ -292,6 +292,7 @@ function CustomSkin(baseDir){
 						this.getOrigin(),
 						this.getConfig()
 					])
+					.catch( () => { error(e); process.exit(1) }) 
 }
 
 
