@@ -479,8 +479,8 @@ async function checkClients(){
 		clients			= client_dirs
 						.map( client_dir => new Client(client_dir))
 
-	if(clients_dirs.length == 0) warn('no clients found')
-		
+	if(client_dirs.length == 0) warn('no clients found')
+
 	client_dirs.forEach( dir => { write(1,dir); newline() } )
 
 	return Promise.each( clients, client => client.check() )
