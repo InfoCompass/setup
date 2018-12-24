@@ -156,7 +156,7 @@ function CustomSkin(baseDir){
 	this.getConfig = async function(){
 		var config_file = path.join(baseDir, 'config.json')
 
-		if(!fs.existsSync(config_file)) return this.config.error = "thismissing config file"
+		if(!fs.existsSync(config_file)) return this.config.error = "missing config file"
 
 		this.config = JSON.parse(fs.readFileSync(config_file, 'utf8'))
 			
@@ -235,6 +235,9 @@ function CustomSkin(baseDir){
 		await this.ready
 
 		write(indent, 'map tiles'.padEnd(36, '.'))
+
+		if(!(this.config && this.config.map && this.config.map.tiles)) return warn('missing .map.tiles')
+
 
 		var url = 	this.config.map.tiles
 					.replace('{s}', 'b')
