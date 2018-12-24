@@ -5,7 +5,7 @@ var	Promise		= require('bluebird'),
 	path		= require('path'),
 	MongoClient	= require('mongodb').MongoClient,
 	request		= require('request-promise'),
-	targetDir	= process.argv[2] || '.'
+	targetDir	= path.resolve(process.argv[2] || '.')
 
 
 function ok()		{ 	process.stdout.write('\t\x1b[32m[ok]\x1b[0m\n') }
