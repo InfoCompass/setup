@@ -132,8 +132,6 @@ function Client(baseDir){
 		:	await Promise.each(this.customSkins,  customSkin => customSkin.check(2) )
 	
 		newline()
-
-		write('TODO: check if backendLocation and StatsLocation and map.tiles work')
 	}
 
 	var self = this
@@ -251,6 +249,16 @@ function CustomSkin(baseDir){
 				.then(ok, warn)
 	}
 
+
+	this.checkTaxonomyConfig = async function(indent){
+		var taxonomy_file = path.join(baseDir, 'js/config/taxonomy.js')
+
+		write(indent, 'taxonomy'.padEnd(36, '.'))
+
+		fs.existsSync(taxonomy_file)
+		? ok()
+		: warn('missing js/config/taxonomy.js')
+	}
 
 	this.check = async function(indent){
 		await this.ready
