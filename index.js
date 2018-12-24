@@ -156,7 +156,7 @@ function CustomSkin(baseDir){
 	this.getConfig = async function(){
 		var config_file = path.join(baseDir, 'config.json')
 
-		if(!fs.existsSync(config_file)) throw "missing config file"
+		if(!fs.existsSync(config_file)) return this.config.error = "thismissing config file"
 
 		this.config = JSON.parse(fs.readFileSync(config_file, 'utf8'))
 			
@@ -324,7 +324,7 @@ function Backend(baseDir){
 	this.getConfig = 	async function(){
 		var config_file = path.join(baseDir, 'config', 'config.json')
 
-		if(!fs.existsSync(config_file)) return this.config.error = "missing config file"
+		if(!fs.existsSync(config_file)) return this.config.error =  "missing config file"
 
 		try{
 			this.config = JSON.parse(fs.readFileSync(config_file, 'utf8'))
@@ -450,6 +450,7 @@ function Backend(baseDir){
 						this.findGitRepository(),
 						this.getConfig()
 					])
+					.catch( e => { error(e) process.exit(1) )
 }
 
 
