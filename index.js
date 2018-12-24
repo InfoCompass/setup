@@ -146,8 +146,8 @@ function Client(baseDir){
 function CustomSkin(baseDir){
 	this.baseDir 	= 	baseDir || '.'
 	this.name		=	path.basename(this.baseDir)
-	this.config		= 	{error: 'not checked'}
-	this.origin		=	{error: 'not checked'}
+	this.config		= 	{error: false}
+	this.origin		=	{error: false}
 
 	this.getOrigin = async function(){
 		this.origin = (await getGitOriginUrl(this.baseDir)) || { error: 'Unable to detect origin'}
@@ -195,8 +195,6 @@ function CustomSkin(baseDir){
 	this.checkBackend = async function(indent){
 		await this.ready
 
-		if(!this.config.backendLocation) return warn('missing .backendLocation')
-
 		var files 	= 	[
 							'dpd.js',				
 							'ic-item-config.js',
@@ -235,8 +233,6 @@ function CustomSkin(baseDir){
 		await this.ready
 
 		write(indent, 'map tiles'.padEnd(36, '.'))
-
-		if(!(this.config && this.config.map && this.config.map.tiles)) return warn('missing .map.tiles')
 
 
 		var url = 	this.config.map.tiles
@@ -280,6 +276,8 @@ function CustomSkin(baseDir){
 		this.config.error
 		?	warn(this.config.error)
 		:	ok()
+
+		if(config.error) return null
 
 		newline()
 		await this.checkBackend(indent+1)
