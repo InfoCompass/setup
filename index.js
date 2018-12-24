@@ -257,7 +257,7 @@ function CustomSkin(baseDir){
 		write(indent+1,'Origin ')
 		this.origin.error
 		?	warn(this.origin.error)
-		:	write(this.origin) || ok()
+		:	(write(this.origin), ok())
 
 		write(indent+1,'Config ')
 		this.config.error
