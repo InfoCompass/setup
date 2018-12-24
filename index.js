@@ -51,6 +51,7 @@ async function findGitRepository(dir, regex){
 	dir = dir || '.'
 
 	return 	Promise.resolve(findFile(dir, /^\.git$/))
+			.forEach( console.log )
 			.filter( folder => getGitOriginUrl(folder).then( link => regex.exec(link)) )
 }
 
