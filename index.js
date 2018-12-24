@@ -5,7 +5,7 @@ var	Promise		= require('bluebird'),
 	path		= require('path'),
 	MongoClient	= require('mongodb').MongoClient,
 	request		= require('request-promise'),
-	targetDir	= process.argv[2]
+	targetDir	= process.argv[2] || '.'
 
 
 function ok()		{ 	process.stdout.write('\t\x1b[32m[ok]\x1b[0m\n') }
@@ -473,7 +473,7 @@ function Backend(baseDir){
 
 async function checkClients(){
 
-	write('checking Clients in '+targetDir+' ...')
+	write('checking Clients in '+targetDir+' ...\n\n')
 
 	var client_dirs 	= await findClients(targetDir),
 		clients			= client_dirs.map( client_dir => new Client(client_dir))
@@ -484,7 +484,7 @@ async function checkClients(){
 
 async function checkBackends(){
 
-	write('checking Backends in '+targetDir+' ...')
+	write('checking Backends in '+targetDir+' ...\n\n')
 
 
 	var backend_dirs	= await findBackends(targetDir),
