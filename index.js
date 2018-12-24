@@ -43,7 +43,7 @@ async function findFile(dir, regex){
 	if(!fs.existsSync(config)) return null
 
 	return	Promise.resolve(fs.readFile(config, 'utf8'))
-			.then( content => { console.log(content); var match = content.match(/\[remote "origin"]\s*url\s*=\s*([^\s]*)/); return  match && match[1] })
+			.then( content => { var match = content.match(/\[remote "origin"]\s*url\s*=\s*([^\s]*)/); return  match && match[1] })
 }
 
 
@@ -54,8 +54,8 @@ async function findGitRepository(dir, regex){
 			.filter( folder => getGitOriginUrl(folder).then( link => regex.exec(link)) )
 }
 
-async function findClients(dir){	return await findGitRepository(dir, /https:\/\/github.com\/InfoCompass\/client.git/) }
-async function findBackends(dir){	return await findGitRepository(dir, /https:\/\/github.com\/InfoCompass\/backend.git/) }
+async function findClients(dir){	return await findGitRepository(dir, /https:\/\/github.com\/InfoCompass\/client/) }
+async function findBackends(dir){	return await findGitRepository(dir, /https:\/\/github.com\/InfoCompass\/backend/) }
 
 
 function findErrors(requirements, obj){
