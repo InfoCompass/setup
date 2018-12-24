@@ -58,16 +58,18 @@ async function findClients(dir){	return await findGitRepository(dir, /https:\/\/
 async function findBackends(dir){	return await findGitRepository(dir, /https:\/\/github.com\/InfoCompass\/backend/) }
 
 
-function findErrors(requirements, obj){
+function findErrors(requirements, obj, key){
+	var errors = []
+
 	if(typeof requirements 	!= 'object') 	return obj === undefined ? ' missing' : null
-	if(typeof obj 			!= 'object') 	return '.. not an object'
+	if(typeof obj 			!= 'object') 	return '... not an object'
 		
-	for(var key in requirements){
-		var e = findErrors(requirements[key], obj[key]) 
-		if(e) return '.'+key+e
+	for(var k in requirements){
+		var e = findErrors(requirements[k], obj[k], key) 
+		errors.concat(e)
 	}
 	
-	return null
+	return errors
 }
 
 
@@ -161,33 +163,37 @@ function CustomSkin(baseDir){
 		this.config = JSON.parse(fs.readFileSync(config_file, 'utf8'))
 			
 
-		var requirements = {
-			backendLocation : 		true,
-			statsLocation:			true,
-			title:					true, 
-			description:			true,
-			title:					true,
-			languages:				true,
-			activeIconColor:		true,
-			plainIconColor:			true,
-			sharing:				true,
-			map:				{
-				center:				true,
-				zoom:				true,
-				minZoom:			true,
-				maxZoom:			true,
-				maxBounds:			true,
-				maxClusterRadius:	true,
-				tiles:				true,
-			}	
+		var requirements = 	{
+								backendLocation : 		true,
+								title:					true, 
+								title:					true,
+								languages:				true,
+								sharing:				true,
+								map:				{
+									center:				true,
+									zoom:				true,
+									minZoom:			true,
+									maxZoom:			true,
+									maxBounds:			true,
+									maxClusterRadius:	true,
+									tiles:				true,
+								}	
 
-		}
+							},
+			nice_to_have =	{
+								description:			true,
+								statsLocation:			true,
+								activeIconColor:		true,
+								plainIconColor:			true,
+							}
 
 		
 
-		var error = findErrors(requirements, this.config)
+		var error 		= findErrors(requirements, this.config),
+			warnings 	= findErrors(nice_to_have, this.config)
 
-		if(error) this.config.error = error
+		if(error.length) 		this.config.error 		= error[0]
+		if(warnings.length) 	this.config.warnings	= warnings
 
 
 	}
@@ -279,6 +285,8 @@ function CustomSkin(baseDir){
 
 		if(this.config.error) return null
 
+		if(this.config.warning) config.warnings.forEach( w => { write(indent+1, w) })
+
 		newline()
 		await this.checkBackend(indent+1)
 		await this.checkTaxonomy(indent+1)
@@ -360,7 +368,7 @@ function Backend(baseDir){
 								
 							}	
 
-		var error = findErrors(requirements, this.config)
+		var error = findErrors(requirements, this.config)[0]
 
 		if(error) this.config.error = error
 	}
