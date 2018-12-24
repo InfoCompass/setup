@@ -158,11 +158,8 @@ function CustomSkin(baseDir){
 
 		if(!fs.existsSync(config_file)) throw "missing config file"
 
-		try{
-			this.config = JSON.parse(fs.readFileSync(config_file, 'utf8'))
-		} catch(e) {
-			this.config.error = e
-		}
+		this.config = JSON.parse(fs.readFileSync(config_file, 'utf8'))
+			
 
 		var requirements = {
 			backendLocation : 		true,
@@ -292,7 +289,7 @@ function CustomSkin(baseDir){
 						this.getOrigin(),
 						this.getConfig()
 					])
-					.catch( () => { error(e); process.exit(1) }) 
+					.catch( e => { error(e); process.exit(1) }) 
 }
 
 
