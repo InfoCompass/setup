@@ -223,7 +223,8 @@ function CustomSkin(baseDir){
 		write(indent, 'stats'.padEnd(36, '.'))
 
 		await	request.get(this.config.statsLocation)
-				.then(ok, warn)
+				.then(ok)
+				.catch( e => warn() )
 
 	}
 
