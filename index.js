@@ -200,6 +200,8 @@ function CustomSkin(baseDir){
 	this.checkBackend = async function(indent){
 		await this.ready
 
+		if(!this.config.backendLocation) return warn('missing .backendLocation')
+
 		var files 	= 	[
 							'dpd.js',				
 							'ic-item-config.js',
@@ -255,7 +257,7 @@ function CustomSkin(baseDir){
 		write(indent+1,'Origin ')
 		this.origin.error
 		?	warn(this.origin.error)
-		:	process.stdout.write(this.origin), ok()
+		:	write(this.origin) || ok()
 
 		write(indent+1,'Config ')
 		this.config.error
