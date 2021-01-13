@@ -61,7 +61,7 @@ async function findBackends(dir){	return await findGitRepository(dir, /https:\/\
 function findErrors(requirements, obj, path){
 	var errors = []
 
-	if(typeof requirements 	!= 'object') 	return obj === undefined ? [(path||'')+' missing'] : []
+	if(typeof requirements 	!= 'object') 	return ( (obj === undefined) || (obj === "") ) ? [(path||'')+' missing'] : []
 	if(typeof obj 			!= 'object') 	return [path+' not an object']
 		
 	for(var k in requirements){
@@ -410,7 +410,7 @@ function Backend(baseDir){
 					}
 				)
 				.then(	client 	=> { client.close(); ok() })
-				.catch(	e		=> { warn(); error(e)})
+				.catch(	e		=> warn(e) )
 	}
 
 
