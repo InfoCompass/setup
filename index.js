@@ -8,7 +8,7 @@ var	Promise		= require('bluebird'),
 	targetDir	= path.resolve(process.argv[2] || '.')
 
 
-function ok()		{ 	process.stdout.write('\t\x1b[32m[ok]\x1b[0m\n') }
+function ok(s)		{ 	s = s && `(${s})`; process.stdout.write(`\t\x1b[32m[ok]\x1b[0m ${s}\n`) }
 function warn(s) 	{ 	process.stdout.write('\t\x1b[33m['+(s||'failed')+']\x1b[0m\n')}
 function error(s) 	{ 
 						newline()
@@ -143,6 +143,10 @@ function Client(baseDir){
 					.then( () => self.findCustomSkins() )
 				])
 }
+
+
+
+
 
 
 function CustomSkin(baseDir){
@@ -353,35 +357,46 @@ function Backend(baseDir){
 			return null
 		}
 
-		var requirements = 	{
-								title: true,
-								googleTranslateApiKey: true,
-								translationSpreadsheetUrl: true,
-								frontendUrl: true,
-								port: true,
-								mail: {
-									host: 		true,
-									port:		true,
-									secure:		true,
-									user:		true,
-									pass:		true,
-									from:		true,
-								},
-								db: {
-									host: 		true,
-									port:		true,
-									name:		true,
-									credentials: {
-										username:	true,
-										password:	true
+		const requirements	=	{
+									googleTranslateApiKey: true,
+									translationSpreadsheetUrl: true,
+									frontendUrl: true,
+									port: true,
+									mail: {
+										host: 		true,
+										port:		true,
+										secure:		true,
+										user:		true,
+										pass:		true,
+										from:		true,
+									},
+									db: {
+										host: 		true,
+										port:		true,
+										name:		true,
+										credentials: {
+											username:	true,
+											password:	true
+										}
 									}
-								}
-								
-							}	
+									
+								}	
 
-		var error = findErrors(requirements, this.config)[0]
+		const nice_to_have =	{
+									title: 			true,
+									"publicApi":{
+                						"port": 		true
+        							}
+        						}
 
-		if(error) this.config.error = error
+		
+
+		var errors 		= findErrors(requirements, this.config),
+			warnings 	= findErrors(nice_to_have, this.config)
+
+
+		if(error.length) 		this.config.error 		= errors[0]
+		if(warnings.length) 	this.config.warnings	= warnings
 	}
 
 
@@ -412,8 +427,7 @@ function Backend(baseDir){
 				)
 				.then(	client 	=> { 
 					client.close(); 
-					ok();
-					write(`(${this.config.db.host}:${this.config.db.port})`) 
+					ok(`(${this.config.db.host}:${this.config.db.port})`);					
 				})
 				.catch(	e		=> { 
 					warn(e); 					
@@ -435,6 +449,7 @@ function Backend(baseDir){
 		newline()
 		write('-'.repeat(('Backend - '+this.baseDir).length))
 		newline()
+
 		write('\t1) Clone repository')
 		this.repo.error
 		?	warn(this.repo.error)
@@ -444,6 +459,10 @@ function Backend(baseDir){
 		this.config.error
 		?	warn(this.config.error)
 		:	ok()
+
+		if(this.config.error) return null
+
+		if(this.config.warnings) this.config.warnings.forEach( w => { write(indent+2, w); newline() })
 
 		write('\t3) Setup item config')
 		fs.existsSync(item_file)
