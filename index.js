@@ -8,7 +8,7 @@ var	Promise		= require('bluebird'),
 	targetDir	= path.resolve(process.argv[2] || '.')
 
 
-function ok(s)		{ 	s = s && `(${s})`; process.stdout.write(`\t\x1b[32m[ok]\x1b[0m ${s}\n`) }
+function ok(s)		{ 	s = s && ` (${s})` || ''; process.stdout.write(`\t\x1b[32m[ok]\x1b[0m${s}\n`) }
 function warn(s) 	{ 	process.stdout.write('\t\x1b[33m['+(s||'failed')+']\x1b[0m\n')}
 function error(s) 	{ 
 						newline()
