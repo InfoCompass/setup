@@ -166,7 +166,6 @@ function CustomSkin(baseDir){
 		var requirements = 	{
 								backendLocation : 		true,
 								title:					true, 
-								title:					true,
 								languages:				true,
 								sharing:				true,
 								map:				{
@@ -241,7 +240,6 @@ function CustomSkin(baseDir){
 		await this.ready
 
 		write(indent, 'map tiles'.padEnd(36, '.'))
-
 
 		var url = 	this.config.map.tiles
 					.replace('{s}', 'b')
