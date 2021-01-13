@@ -408,11 +408,15 @@ function Backend(baseDir){
 						useUnifiedTopology:	true
 					}
 				)
-				.then(	client 	=> { client.close(); ok() })
+				.then(	client 	=> { 
+					client.close(); 
+					ok();
+					write(`(${this.config.db.host}:${this.config.db.port})`) 
+				})
 				.catch(	e		=> { 
 					warn(e); 
 					newline(); 
-					write('\t'.repeat(indent) + connect_str) 
+					write('\t'.repeat(indent) + 'Tried: ' + connect_str) 
 				})
 	}
 
@@ -451,7 +455,7 @@ function Backend(baseDir){
 		:	warn("missing translations - npm start") 
 
 
-		write(`\t5) Setup MongoDb (port: ${this.config.db.port}`)
+		write(`\t5) Setup MongoDb`)
 		newline()
 		await 	this.checkDb(2)
 
