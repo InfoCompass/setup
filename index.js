@@ -189,12 +189,17 @@ function CustomSkin(baseDir){
 								statsLocation:			true,
 								activeIconColor:		true,
 								plainIconColor:			true,
+								chatbot:				true,
+								disabledLists:			true,
+								publicItems
 							}
 
 		
 
 		var errors 		= findErrors(requirements, this.config),
 			warnings 	= findErrors(nice_to_have, this.config)
+
+		console.log(warnings)
 
 		if(error.length) 		this.config.error 		= errors[0]
 		if(warnings.length) 	this.config.warnings	= warnings
@@ -277,14 +282,18 @@ function CustomSkin(baseDir){
 		newline()
 
 		write(indent+1,'Origin ')
+
 		this.origin.error
 		?	warn(this.origin.error)
 		:	(write(this.origin), ok())
 
+
 		write(indent+1,'Config ')
+
 		this.config.error
 		?	warn(this.config.error)
 		:	ok()
+
 
 		if(this.config.error) return null
 
