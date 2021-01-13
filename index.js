@@ -190,7 +190,7 @@ function CustomSkin(baseDir){
 								activeIconColor:		true,
 								plainIconColor:			true,
 								chatbot:				true,
-								disabledLists:			true,
+								disableLists:			true,
 								publicItems:			true,
 							}
 
@@ -199,7 +199,6 @@ function CustomSkin(baseDir){
 		var errors 		= findErrors(requirements, this.config),
 			warnings 	= findErrors(nice_to_have, this.config)
 
-		console.log(warnings)
 
 		if(error.length) 		this.config.error 		= errors[0]
 		if(warnings.length) 	this.config.warnings	= warnings
@@ -406,7 +405,8 @@ function Backend(baseDir){
 		return	MongoClient.connect(
 					connect_str, 
 					{ 
-						useNewUrlParser: true,
+						useNewUrlParser: 	true,
+						useUnifiedTopology:	true
 					}
 				)
 				.then(	client 	=> { client.close(); ok() })
