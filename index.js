@@ -404,11 +404,10 @@ function Backend(baseDir){
 		return	MongoClient.connect(
 					connect_str, 
 					{ 
-						useNewUrlParser: 	true,
-						useUnifiedTopology:	true,
-						socketOptions: {
-							connectTimeoutMS: 2000
-						}
+						useNewUrlParser: 			true,
+						useUnifiedTopology:			true,
+						connectTimeoutMS: 			3000,
+  						serverSelectionTimeoutMS: 	3000
 					}
 				)
 				.then(	client 	=> { 
