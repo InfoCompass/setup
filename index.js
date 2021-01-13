@@ -191,7 +191,7 @@ function CustomSkin(baseDir){
 								plainIconColor:			true,
 								chatbot:				true,
 								disabledLists:			true,
-								publicItems
+								publicItems:			true,
 							}
 
 		
