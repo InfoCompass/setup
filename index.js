@@ -160,7 +160,12 @@ function CustomSkin(baseDir){
 
 		if(!fs.existsSync(config_file)) return this.config.error = "missing config file"
 
-		this.config = JSON.parse(fs.readFileSync(config_file, 'utf8'))
+		try{
+			this.config = JSON.parse(fs.readFileSync(config_file, 'utf8'))
+		} catch(e) {
+			this.config = {error: e}
+			return null
+		}
 			
 
 		var requirements = 	{
@@ -190,8 +195,6 @@ function CustomSkin(baseDir){
 
 		var errors 		= findErrors(requirements, this.config),
 			warnings 	= findErrors(nice_to_have, this.config)
-
-		console.log(warnings, errors)
 
 		if(error.length) 		this.config.error 		= errors[0]
 		if(warnings.length) 	this.config.warnings	= warnings
