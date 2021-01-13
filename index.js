@@ -405,7 +405,12 @@ function Backend(baseDir){
 					connect_str, 
 					{ 
 						useNewUrlParser: 	true,
-						useUnifiedTopology:	true
+						useUnifiedTopology:	true,
+						server: {
+							socketOptions: {
+								connectTimeoutMS: 2000
+							}
+						}
 					}
 				)
 				.then(	client 	=> { 
@@ -414,8 +419,7 @@ function Backend(baseDir){
 					write(`(${this.config.db.host}:${this.config.db.port})`) 
 				})
 				.catch(	e		=> { 
-					warn(e); 
-					newline(); 
+					warn(e); 					
 					write('\t'.repeat(indent) + 'Tried: ' + connect_str) 
 				})
 	}
@@ -455,8 +459,7 @@ function Backend(baseDir){
 		:	warn("missing translations - npm start") 
 
 
-		write(`\t5) Setup MongoDb`)
-		newline()
+		write(`\t5) Setup MongoDb`)		
 		await 	this.checkDb(2)
 
 
