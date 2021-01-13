@@ -406,10 +406,8 @@ function Backend(baseDir){
 					{ 
 						useNewUrlParser: 	true,
 						useUnifiedTopology:	true,
-						server: {
-							socketOptions: {
-								connectTimeoutMS: 2000
-							}
+						socketOptions: {
+							connectTimeoutMS: 2000
 						}
 					}
 				)
