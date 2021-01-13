@@ -400,8 +400,7 @@ function Backend(baseDir){
 						+ (this.config.db.port)
 						+ ('/')
 						+ (this.config.db.name)
-
-		write('\t'.repeat(indent) + connect_str)
+		
 		return	MongoClient.connect(
 					connect_str, 
 					{ 
@@ -410,8 +409,14 @@ function Backend(baseDir){
 					}
 				)
 				.then(	client 	=> { client.close(); ok() })
-				.catch(	e		=> warn(e) )
+				.catch(	e		=> { 
+					warn(e); 
+					newline(); 
+					write('\t'.repeat(indent) + connect_str) 
+				})
 	}
+
+
 
 
 	this.check = async function(){
@@ -421,7 +426,7 @@ function Backend(baseDir){
 			translations_file = path.join(baseDir, 'dpd/public', 'translations.json')
 
 		newline()
-		write('Backend - '+this.baseDir)
+		write(`Backend - ${this.baseDir} (port: ${this.config.port})`)
 		newline()
 		write('-'.repeat(('Backend - '+this.baseDir).length))
 		newline()
@@ -446,7 +451,7 @@ function Backend(baseDir){
 		:	warn("missing translations - npm start") 
 
 
-		write('\t5) Setup MongoDb')
+		write(`\t5) Setup MongoDb (port: ${this.config.db.port}`)
 		newline()
 		await 	this.checkDb(2)
 
@@ -476,45 +481,6 @@ function Backend(baseDir){
 
 
 
-// {
-// 	"backendLocation": 	"http://192.168.250.1:2410",
-// 	"backendLocation":	"https://api.info-compass.net",
-// 	"statsLocation":	"https://stats.info-compass.net",
-// 	"title":			"InfoCompass",
-// 	"description":		"Description",
-// 	"languages":		["en","de","none","fa","ar","ru","sr","sq","fr","ur","tr"],
-// 	"activeIconColor":	"#f27020",
-// 	"plainIconColor":	"#979797",
-// 	"map":				{
-// 		"center":			[52.518611,13.408333],
-// 		"zoom":				10,
-// 		"minZoom":			11,
-// 		"maxZoom":			18,
-// 		"maxBounds":		[[52.8,13.8],[52.2,13]],
-// 		"maxClusterRadius":	60,
-// 		"tiles":			"https://api.mapbox.com/styles/v1/sgoellner/cjcbu7uhe21sn2soyaau4097y/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2dvZWxsbmVyIiwiYSI6ImNqN3Z2NzNjczRwYXQyd3Q1Znd5NHUxcXEifQ.sCDebhw6O866Yo3Yf1kkfA"
-// 	},
-// 	"sharing": {
-// 		"email"		:	true,
-
-// 		"twitter"	: 	{
-// 							"hashtag": "seniorennetz"
-// 						},
-// 		"facebook"	:	true,
-// 		"whatsapp"	:	true,
-// 		"telegram"	:	true
-// 	}
-// }
-
-
-// ToDo()
-
-// findClients().then(console.dir)
-// findBackends().then(console.dir)
-
-
-
-// findCustomDirs().then(console.dir)
 
 async function checkClients(){
 
