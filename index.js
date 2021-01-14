@@ -13,7 +13,7 @@ function tab(n)		{	process.stdout.write('\t'.repeat(typeof n == 'number' ? n : 0
 
 function ok(s)		{ 	s = s && ` (${s})` || ''; process.stdout.write(`\t\x1b[32m[ok]\x1b[0m${s}\n`) }
 function warn(s) 	{ 	process.stdout.write('\t\x1b[33m['+(s||'failed')+']\x1b[0m\n')}
-function info(s) 	{ 	process.stdout.write('\t\x1b[36m['+(s||'info')+']\x1b[0m\n')}
+function info(s) 	{ 	process.stdout.write('\t\x1b[38m['+(s||'info')+']\x1b[0m\n')}
 function error(s) 	{ 
 						newline()
 						process.stdout.write('\t\x1b[31m['+(s||'failed')+']\x1b[0m\n')
