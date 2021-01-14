@@ -8,7 +8,10 @@ var	Promise		= require('bluebird'),
 	targetDir	= path.resolve(process.argv[2] || '.')
 
 
-function ok(s)		{ 	s = s && ` (${s})` || ''; process.stdout.write(`\t\x1b[32m[ok]\x1b[0m${s}\n`) }
+
+function indent(n)	{	process.stdout.write('\t'.repeat(typeof n == 'number' ? n : 0)) }
+
+function ok(s)	{ 	s = s && ` (${s})` || ''; process.stdout.write(`\t\x1b[32m[ok]\x1b[0m${s}\n`) }
 function warn(s) 	{ 	process.stdout.write('\t\x1b[33m['+(s||'failed')+']\x1b[0m\n')}
 function info(s) 	{ 	process.stdout.write('\t\x1b[36m['+(s||'info')+']\x1b[0m\n')}
 function error(s) 	{ 
@@ -17,7 +20,7 @@ function error(s) 	{
 						newline()
 					}
 function newline(x)	{ 	process.stdout.write('\n'.repeat(x||1))}
-function write(n,s)	{ 	process.stdout.write('\t'.repeat(typeof n == 'number' ? n : 0)+(s||n) )}
+function write(n,s)	{ 	indent(n); process.stdout.write(s||n) }
 
 
 async function findFile(dir, regex){
@@ -304,7 +307,7 @@ function CustomSkin(baseDir){
 
 		if(this.config.error) return null
 
-		if(this.config.warnings) this.config.warnings.forEach( w => { write(indent+2); info(w); newline() })
+		if(this.config.warnings) this.config.warnings.forEach( w => { indent(indent+2); info(w); newline() })
 
 		newline()
 		await this.checkBackend(indent+1)
@@ -468,7 +471,7 @@ function Backend(baseDir){
 
 		if(this.config.error) return null
 
-		if(this.config.warnings) this.config.warnings.forEach( w => { write(2); info(w); newline() })		
+		if(this.config.warnings) this.config.warnings.forEach( w => { indent(2); info(w); newline() })		
 
 		write('\t3) Setup item config')
 		fs.existsSync(item_file)
@@ -485,9 +488,7 @@ function Backend(baseDir){
 		await 	this.checkDb(2)
 
 
-		newline()
-		newline()
-		newline()
+		newline(4)
 
 		write('\nSetup Webserver')
 		write('-------------')
@@ -533,8 +534,7 @@ async function checkClients(){
 
 async function checkBackends(){
 
-	newline()
-	newline()
+	newline(2)
 	write('## Checking Backends in '+targetDir)
 
 
@@ -553,8 +553,5 @@ Promise.resolve()
 .then(checkClients)
 .then(checkBackends)
 .then( () => {
-	newline()
-	newline()
-	newline()
-	newline()
+	newline(5)
 })
