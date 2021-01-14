@@ -10,6 +10,7 @@ var	Promise		= require('bluebird'),
 
 function ok(s)		{ 	s = s && ` (${s})` || ''; process.stdout.write(`\t\x1b[32m[ok]\x1b[0m${s}\n`) }
 function warn(s) 	{ 	process.stdout.write('\t\x1b[33m['+(s||'failed')+']\x1b[0m\n')}
+function info(s) 	{ 	process.stdout.write('\t\x1b[36m['+(s||'info')+']\x1b[0m\n')}
 function error(s) 	{ 
 						newline()
 						process.stdout.write('\t\x1b[31m['+(s||'failed')+']\x1b[0m\n')
@@ -303,7 +304,7 @@ function CustomSkin(baseDir){
 
 		if(this.config.error) return null
 
-		if(this.config.warnings) this.config.warnings.forEach( w => { write(indent+2, w); newline() })
+		if(this.config.warnings) this.config.warnings.forEach( w => { write(indent+2); info(w); newline() })
 
 		newline()
 		await this.checkBackend(indent+1)
@@ -361,18 +362,7 @@ function Backend(baseDir){
 		}
 
 		const requirements	=	{
-									googleTranslateApiKey: true,
-									translationSpreadsheetUrl: true,
-									frontendUrl: true,
-									port: true,
-									mail: {
-										host: 		true,
-										port:		true,
-										secure:		true,
-										user:		true,
-										pass:		true,
-										from:		true,
-									},
+									port: 	true,
 									db: {
 										host: 		true,
 										port:		true,
@@ -386,9 +376,22 @@ function Backend(baseDir){
 								}	
 
 		const nice_to_have =	{
-									title: 			true,
-									"publicApi":{
-                						"port": 		true
+									title: 						true,
+									googleTranslateApiKey: 		true,
+									deepLApiKey:				true,
+									translationSpreadsheetUrl: 	true,
+									frontendUrl: 				true,
+
+									mail: {
+										host: 		true,
+										port:		true,
+										secure:		true,
+										user:		true,
+										pass:		true,
+										from:		true,
+									},
+									publicApi:{
+                						port: 		true
         							}
         						}
 
@@ -465,7 +468,7 @@ function Backend(baseDir){
 
 		if(this.config.error) return null
 
-		if(this.config.warnings) this.config.warnings.forEach( w => { write(indent+2, w); newline() })
+		if(this.config.warnings) this.config.warnings.forEach( w => { write(2); info(w); newline() })		
 
 		write('\t3) Setup item config')
 		fs.existsSync(item_file)
@@ -482,6 +485,8 @@ function Backend(baseDir){
 		await 	this.checkDb(2)
 
 
+		newline()
+		newline()
 		newline()
 
 		write('\nSetup Webserver')
