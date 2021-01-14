@@ -225,7 +225,7 @@ function CustomSkin(baseDir){
 		write(indent, 'api'.padEnd(36, '.'))
 
 		await	request.get(this.config.backendLocation)
-				.then(ok)
+				.then( () => ok() )
 				.catch( e => warn() )
 
 
@@ -242,7 +242,7 @@ function CustomSkin(baseDir){
 		write(indent, 'stats'.padEnd(36, '.'))
 
 		await	request.get(this.config.statsLocation)
-				.then(ok)
+				.then( () => ok() )
 				.catch( e => warn() )
 
 	}
@@ -259,7 +259,10 @@ function CustomSkin(baseDir){
 					.replace('{z}', 10)
 
 		await 	request.get(url)
-				.then(ok, warn)
+				.then(
+					()=> ok(), 
+					()=> warn()
+				)
 	}
 
 
