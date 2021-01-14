@@ -307,9 +307,10 @@ function CustomSkin(baseDir){
 
 		if(this.config.error) return null
 
-		if(this.config.warnings) this.config.warnings.forEach( w => { tab(indent+2); info(w);})
+		if(this.config.warnings) this.config.warnings.forEach( w => { tab(indent+1); info(w);})
 
-		newline()
+		newline(2)
+
 		await this.checkBackend(indent+1)
 		await this.checkTaxonomy(indent+1)
 		await this.checkMapTiles(indent+1)
@@ -471,7 +472,9 @@ function Backend(baseDir){
 
 		if(this.config.error) return null
 
-		if(this.config.warnings) this.config.warnings.forEach( w => { tab(2); info(w);})		
+		if(this.config.warnings) this.config.warnings.forEach( w => { tab(1); info(w);})		
+
+		newline(2)
 
 		write('\t3) Setup item config')
 		fs.existsSync(item_file)
